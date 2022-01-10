@@ -32,27 +32,59 @@ function App() {
   // console.logでコンソールに取得したTODOリストの情報を表示してみる
   console.log("TODOリスト:", todoList);
 
+  // filter() を利用して「TODOの状態が未完了」の要素をもつ新しい配列を作成
+  const inCompletedList = todoList.filter((todo) => {
+    return !todo.done;
+  });
+
+  // console.log でコンソールに取得した未完了TODOリストの情報を表示してみる
+  console.log("未完了TODOリスト:", inCompletedList);
+
+  // filter() を利用して「TODOの状態が完了」の要素を持つ新しい配列を作成
+  const completedList = todoList.filter((todo) => {
+    return todo.done;
+  });
+
+  // console.log でコンソールに取得した完了TODOリストの情報を表示してみる
+  console.log("完了TODOリスト：", completedList);
+
   return (
     <>
       <h1>TODO進捗管理</h1>
 
-      {/* 現時点で textarea は昨日していない */}
+      {/* 現時点で textarea は機能していない */}
       <textatra />
 
-      {/* 現時点で TODOを追加 button は昨日していない */}
+      {/* 現時点で TODOを追加 button は機能していない */}
       <button>+ TODOを追加</button>
 
-      <h2>TODOリスト</h2>
+      <h2>未完了TODOリスト</h2>
       <ul>
 
-        {/* map() を利用して todoListの要素を1つひとつ取り出す */}
-        {todoList.map((todo) => (
+        {/* map() を利用して inCompletedListの要素を1つひとつ取り出す */}
+        {inCompletedList.map((todo) => (
 
-          // li に一位なIDを key属性の値として付与
+          // li に一意なIDを key属性の値として付与
           <li key={todo.id}>
-            {/* todo.done が　true の場合は「完了」、
-            false の場合は「未完了」の文字列を表示 */}
-            {todo.content}({todo.done ? "完了" : "未完了"})
+            {todo.content}
+
+            {/* TODOが完了の場合は「未完了リストへ」、未完了の場合は「完了リストへ」と表示するボタンを設置する */}
+            {/* 現時点でトグルボタンは機能していない */}
+            <button>{todo.done ? "未完了リストへ" : "完了リストへ"}</button>
+            {/* TODOの「削除」ボタンを設置しておく */}
+            {/* 現時点で「削除」ボタンは機能していない */}
+            <button>削除</button>
+          </li>
+        ))}
+      </ul>
+
+      <h2>完了TODOリスト</h2>
+      <ul>
+        {completedList.map((todo) => (
+          <li key={todo.id}>
+            {todo.content}
+            <button>{todo.done ? "未完了リストへ" : "完了リストへ"}</button>
+            <button>削除</button>
           </li>
         ))}
       </ul>
