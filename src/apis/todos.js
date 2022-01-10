@@ -35,8 +35,8 @@ export const deleteTodoData = async (id) => {
 };
 
 // axios.put() で一致した id のTODOを更新する
-// TODO を更新する updataTodoData 関数を宣言
-export const updataTodoData = async (id, todo) => {
+// TODO を更新する updetaTodoData 関数を宣言
+export const updateTodoData = async (id, todo) => {
     const response = await axios.put(`${todoDataUrl}/${id}`, todo);
 
     // 通信後、response.data でレスポンスデータを返す
