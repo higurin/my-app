@@ -36,12 +36,12 @@ export const useTodo = () => {
         // updateTodoData() を利用して指定された id のTODOを更新したら、
         // 続いて todoList の状態も更新する
         todoData.updateTodoData(id, newTodoItem).then((updatedTodo) => {
-            const newTodoList = todoList.map(() =>
+            const newTodoList = todoList.map((item) =>
 
                 // id が異なる場合、todoListから取り出した item をそのまま返し、
                 // 同じ場合は done(完了/未完了)の状態を反転させた updatedTodo を
                 // 返して新しい配列 nowTodoList を作成
-                item.id !== uodatedTodo.id ? item : updatedTodo
+                item.id !== updatedTodo.id ? item : updatedTodo
             );
 
             // todoList の現在の状態(state)を newTodoListの内容に更新
