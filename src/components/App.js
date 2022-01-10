@@ -1,59 +1,8 @@
 import React, { useRef } from "react";
 import { useTodo } from "../hooks/useTodo";
-
-// todoTitle コンポーネントを作成
-const TodoTitle = ({ title, as }) => {
-  if (as === "h1") return <h1>{title}</h1>;
-  if (as === "h2") return <h2>{title}</h2>;
-  return <p>{title}</p>;
-};
-
-// todoItem コンポーネントを作成
-const TodoItem = ({ todo, toggleTodoListItemStatus, deleteTodoListItem }) => {
-
-  const handleToggleTodoListItemStatus = () => toggleTodoListItemStatus(todo.id, todo.done);
-  const handleDeleteTodoListItem = () => deleteTodoListItem(todo.id);
-
-  return (
-    <li>
-      {todo.content}
-      <button onClick={handleToggleTodoListItemStatus}>
-        {todo.done ? "未完了リストへ" : "完了リストへ"}
-      </button>
-      <button onClick={handleDeleteTodoListItem}>削除</button>
-    </li>
-  );
-};
-
-// todoList コンポーネントを作成
-const TodoList = ({ todoList, toggleTodoListItemStatus, deleteTodoListItem }) => {
-  return (
-    <ul>
-      {todoList.map((todo) => (
-        // TodoItem に一位なIDを key属性の値として付与
-        <TodoItem
-          todo={todo}
-          key={todo.id}
-          toggleTodoListItemStatus={toggleTodoListItemStatus}
-          deleteTodoListItem={deleteTodoListItem} />
-      ))}
-    </ul>
-  );
-};
-
-// todoAdd コンポーネントを作成
-const TodoAdd = ({ inputEl, handleAddTodoListItem }) => {
-  return (
-    <>
-      {/* useRef() で作成した refオブジェクトを ref属性に指定してDOMを参照する */}
-      < textarea ref={inputEl} />
-      {/* 「+ TODOを追加」ボタンをクリックで handleAddTodoListItem 関数を実行 */}
-      <button button onClick={handleAddTodoListItem} > + TODOを追加</button >
-    </>
-  );
-
-};
-
+import { TodoTitle } from "../components/TodoTitle";
+import { TodoList } from "../components/TodoList";
+import { TodoAdd } from "../components/TodoAdd";
 
 function App() {
   // useTodo() カスタムフックで作成した todoList を利用できるようにする
@@ -78,8 +27,6 @@ function App() {
     inputEl.current.value = "";
   };
 
-  console.log("TODOリスト:", todoList);
-
   // filter() を利用して「TODOの状態が未完了」の要素をもつ新しい配列を作成
   const inCompletedList = todoList.filter((todo) => {
     return !todo.done;
@@ -95,20 +42,23 @@ function App() {
       <TodoTitle title="TODO進捗管理" as="h1" />
 
       <TodoAdd
+        buttonText="+ TODOを追加"
         inputEl={inputEl}
-        handleAddTodoListItem={handleAddTodoListItem} />
-      <TodoTitle title="未完了TODOリスト" as="h2" />
+        handleAddTodoListItem={handleAddTodoListItem}
+      />
       <TodoList
         todoList={inCompletedList}
         toggleTodoListItemStatus={toggleTodoListItemStatus}
         deleteTodoListItem={deleteTodoListItem}
+        title="未完了TODOリスト"
+        as="h2"
       />
-
-      <TodoTitle title="完了TODOリスト" as="h2" />
       <TodoList
         todoList={completedList}
         toggleTodoListItemStatus={toggleTodoListItemStatus}
         deleteTodoListItem={deleteTodoListItem}
+        title="完了TODOリスト"
+        as="h2"
       />
     </>
   );
